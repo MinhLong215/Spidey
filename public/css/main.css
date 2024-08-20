@@ -4,6 +4,7 @@
     --gray: #696969;
     --white: #F5F5F5;
     --red: #ff0000;
+    --blue: #57A0D3;
     --redBackground: rgba(226, 34, 94, 0.1);
     --buttonHoverBg: #242124;
     --lightGrey: rgb(230, 236, 240);
@@ -106,6 +107,10 @@ button span {
     padding-top: var(--spacing);
 }
 
+.modal .post {
+    padding: 0 0 var(--spacing) 0;
+}
+
 .userImageContainer{
     width: 50px;
     height: 50px;
@@ -196,7 +201,7 @@ button span {
 
 .postButtonContainer button:hover {
     background-color: #d4edff;
-    color: var(--red);
+    color: var(--blue);
     border-radius: 50%;
 }
 
@@ -223,4 +228,25 @@ button span {
     font-size: 13px;
     color: var(--greyText);
     margin-bottom: 5px;
+}
+
+.replyFlag{
+    margin-bottom: 5px;
+}
+
+.replyFlag a {
+    color: var(--blue);
+}
+
+.post.largeFont .postBody,
+.post.largeFont .postFooter{
+    font-size: 23px;
+}
+
+.postContentContainer .header {
+    display: flex;
+}
+
+.postContentContainer .header .date {
+    flex: 1;
 }

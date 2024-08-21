@@ -1,19 +1,10 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
-const bodyParser = require("body-parser")
-const bcrypt = require("bcrypt");
-const User = require('../schemas/UserSchema');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-
-router.get("/", (req, res, next) => {
-    
-    if(req.session) {
-        req.session.destroy(() => {
-            res.redirect("/login");
-        })
-    }
-})
+router.post("/", (req, res) => {
+    // Xóa JWT từ client-side
+    localStorage.removeItem('token'); // hoặc sessionStorage.removeItem('token');
+    res.status(200).json({ message: "Logout successful. Please remove the token from client-side storage." });
+});
 
 module.exports = router;

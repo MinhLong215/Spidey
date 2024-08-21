@@ -3,48 +3,51 @@ const app = express();
 const port = 3003;
 const middleware = require('./middleware')
 const path = require('path')
-const bodyParser = require("body-parser")
 const mongoose = require("./database");
-const session = require("express-session");
+const cookieParser = require('cookie-parser');
 
 const server = app.listen(port, () => console.log("Server listening on port " + port));
 
+//cài view engine
 app.set("view engine", "pug");
 app.set("views", "views");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
 
-app.use(session({
-    secret: "black spider",
-    resave: true,
-    saveUninitialized: false
-}))
+//thiết lập bodyParser
+// Cấu hình middleware để phân tích dữ liệu JSON
+app.use(express.json());
+// Cấu hình middleware để phục vụ tệp tĩnh từ thư mục 'public'
+app.use(express.static(path.join(__dirname, 'public')));
+// Cấu hình middleware để phân tích dữ liệu từ các biểu mẫu HTML (nếu cần)
+app.use(express.urlencoded({ extended: false }));
 
 //routes
 const loginRoute = require("./routes/loginRoutes");
 const registerRoute = require("./routes/registerRoutes");
 const logoutRoute = require("./routes/logoutRoutes");
+const userRoute = require("./routes/userRoutes");
 const postRoute = require("./routes/postRoutes");
 
 //Api routes
 const postsApiRoute = require("./routes/api/posts");
 
+//Routes với bảo mật
 app.use("/login", loginRoute);
 app.use("/register", registerRoute);
 app.use("/logout", logoutRoute);
-app.use("/posts", middleware.requireLogin, postRoute);
+app.use("/users", userRoute);
+app.use("/posts", middleware.requireAuth, middleware.requireAdmin, postRoute);
+
 
 app.use("/api/posts", postsApiRoute);
 
-
-app.get("/", middleware.requireLogin, (req, res, next) => {
-
+// Route chính
+app.get("/", middleware.requireAuth, (req, res) => {
     var payload = {
         pageTitle: "SPIDEY",
-        userLoggedIn: req.session.user,
-        userLoggedInJs: JSON.stringify(req.session.user), 
-    }
-
+        userLoggedIn: req.user,
+        userLoggedInJs: JSON.stringify(req.user)
+    };
     res.status(200).render("home", payload);
-})
+});

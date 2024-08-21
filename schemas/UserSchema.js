@@ -9,6 +9,7 @@ const UserShema = new Schema({
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true },
     profilePic: { type: String, default: "/images/profilePic.png" },
+    role: { type: String, enum: ['user', 'admin'], default: 'user' }, // Thêm trường role
     likes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
     retweets: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
 }, { timestamps: true });

@@ -4,72 +4,47 @@ const router = express.Router();
 const bodyParser = require("body-parser")
 const bcrypt = require("bcrypt");
 const User = require('../schemas/UserSchema');
+const jwt = require('jsonwebtoken');
 
 app.set("view engine", "pug");
 app.set("views", "views");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", (req, res, next) => {
-    
+router.get("/", (req, res) => {
     res.status(200).render("register");
 })
 
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res) => {
+    try {
+        const { firstName, lastName, username, email, password, passwordConfirm } = req.body;
 
-    var firstName = req.body.firstName.trim();
-    var lastName = req.body.lastName.trim();
-    var username = req.body.username.trim();
-    var email = req.body.email.trim();
-    var password = req.body.password;
+        if (password !== passwordConfirm) {
+            return res.status(400).render('register', { errorMessage: 'Passwords do not match' });
+        }
 
-    var payload = req.body;
+        // Check if username already exists
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).render('register', { errorMessage: 'Username already exists' });
+        }
 
-    if(firstName && lastName && username && email && password){
-        var user = await User.findOne({
-            $or: [
-                { username: username },
-                { email: email }
-            ]
-        })
-        .catch((error) => {
-            console.log(error);
-            payload.errorMessage = "Something went wrong";
-            res.status(200).render("register", payload);
+        // Create and save the new user
+        const user = new User({
+            firstName,
+            lastName,
+            username,
+            email,
+            password
         });
+        await user.save();
 
-        if(user == null) {
-            //No user found
-
-            var data = req.body;
-
-            data.password = await bcrypt.hash(password, 10)
-
-            User.create(data)
-            .then((user) => {
-                req.session.user = user;
-                return res.redirect("/");
-            })
-
-        }
-        else{
-            //User found
-            if (email == user.email) {
-                payload.errorMessage = "Email already in use.";
-            }
-            else {
-                payload.errorMessage = "Username already in use";
-            }
-            res.status(200).render("register", payload);
-        }
-
-
-
+        // Redirect to login page or home page
+        res.redirect('/login');
+    } catch (error) {
+        console.error('Error during registration:', error);
+        res.status(500).render('register', { errorMessage: 'An error occurred during registration' });
     }
-    else{
-        payload.errorMessage = "Make sure each field has a valid value.";
-        res.status(200).render("register", payload);
-    }
-})
+});
 
 module.exports = router;

@@ -5,6 +5,7 @@
     --white: #F5F5F5;
     --red: #ff0000;
     --blue: #57A0D3;
+    --blueBackground: rgba(212, 237, 255, 0.6);
     --redBackground: rgba(226, 34, 94, 0.1);
     --buttonHoverBg: #242124;
     --lightGrey: rgb(230, 236, 240);
@@ -56,6 +57,10 @@ nav a:hover{
     background-color: var(--white);
     color: var(--gray);
     border-radius: 50%;
+}
+
+.wrapper > .row {
+    margin: 0;
 }
 
 nav a.red{
@@ -271,4 +276,100 @@ button span {
 
 .profileHeaderContainer .userImageContainer img{
     border: 4px solid #fff;
+}
+
+.profileHeaderContainer .profileButtonContainer {
+    text-align: right;
+    padding: var(--spacing);
+    min-height: 80px;
+}
+
+.profileButton,
+.followButton {
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 60px;
+    display: inline-block;
+    margin-left: var(--spacing);
+}
+
+.profileButton :hover,
+.followButton :hover {
+    background-color: var(--blueBackground);
+}
+
+.followButton.following {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+.profileHeaderContainer .userDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing);
+}
+
+.followersContainer .value {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.followersContainer span:not(.value) {
+    color: var(--greyText);
+}
+
+.followersContainer a {
+    margin-right: 15px;
+}
+
+.followersContainer a:hover {
+    border-bottom: 1px solid #000;
+}
+
+.tabsContainer {
+    display: flex;
+    border-bottom: 1px solid var(--lightGrey);
+    flex-shrink: 0;
+}
+
+.tab {
+    flex: 1;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--greyText);
+    font-weight: bold;
+}
+
+.tab.active {
+    color: var(--blue);
+    border-bottom: 2px solid var(--blue);
+}
+
+.tab:hover{
+    color: var(--blue);
+    background-color: var(--blueBackground);
+}
+
+.noResults{
+    padding: var(--spacing);
+}
+
+.resultsContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.resultsContainer .user {
+    padding: var(--spacing);
+    display: flex;
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+.user .userDetailsContainer{
+    flex: 1;
+    padding: 0 var(--spacing);
 }

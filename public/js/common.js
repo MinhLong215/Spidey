@@ -1,3 +1,6 @@
+//Globals
+var cropper;
+
 $("#postTextarea, #replyTextarea").keyup(event => {
     var textbox = $(event.target);
     var value = textbox.val().trim();
@@ -79,6 +82,54 @@ $("#deletePostButton").click((event) => {
             
             location.reload();
         }
+    })
+})
+
+$("#filePhoto").change(function(){
+    // var input = $(event.target);
+    if(this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            var image = document.getElementById("imagePreview");
+            image.src = e.target.result;
+
+            if(cropper !== undefined){
+                cropper.destroy();
+            }
+
+            cropper = new Cropper(image, {
+                aspectRatio: 1 / 1,
+                background: false
+            });
+
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+    else{
+        console.log("not found")
+    }
+})
+
+$("#imageUploadButton").click(() => {
+    var canvas = cropper.getCroppedCanvas();
+
+    if(canvas == null){
+        alert("Could not upload image. Make sure it is an image file!");
+        return;
+    }
+
+    canvas.toBlob((blob) => {
+        var formData = new FormData();
+        formData.append("croppedImage", blob);
+
+        $.ajax({
+            url: "/api/users/profilePicture",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => location.reload()
+        })
     })
 })
 
@@ -298,11 +349,11 @@ function timeDifference(current, previous) {
     }
 
     else if (elapsed < msPerHour) {
-         return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+        return Math.round(elapsed/msPerMinute) + ' minutes ago';   
     }
 
     else if (elapsed < msPerDay ) {
-         return Math.round(elapsed/msPerHour ) + ' hours ago';   
+        return Math.round(elapsed/msPerHour ) + ' hours ago';   
     }
 
     else if (elapsed < msPerMonth) {

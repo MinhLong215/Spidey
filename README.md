@@ -1,13 +1,18 @@
 # Spidey Social Media 
 
-Description
--Authorization and authentication with Session-based
--Framework: ExpressJs
--Backend: Nodejs
--Frontend: Reactjs
--Database: MongoDB
--Use Cropperjs library to upload pictures
--Use Socket.IO library for real time chats
+Authorization and Authentication: Implemented using session-based authentication to securely manage user sessions.
+
+Framework: Built on Express.js, a fast and flexible Node.js web application framework.
+
+Backend: Powered by Node.js, providing a robust and scalable server-side environment.
+
+Frontend: Developed using React.js for a dynamic and responsive user interface.
+
+Database: Utilizes MongoDB for storing user data, posts, and other platform-related information.
+
+Image Upload: Integrated Cropper.js library to allow users to easily upload and crop pictures before posting.
+
+Real-Time Chat: Leveraged Socket.IO to enable real-time, bidirectional communication for both individual and group chats.
 
 Registration and Login: Users can easily create new accounts or log in to the system to start using the platform.
 ![Register](https://github.com/user-attachments/assets/d3cc42cb-af33-4890-981c-6f24d2a0de39)

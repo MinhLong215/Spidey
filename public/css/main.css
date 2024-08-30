@@ -425,3 +425,64 @@ button span {
 .pinnedPostContainer{
     border-bottom: 10px solid rgb(230, 236, 240);
 }
+
+.searchBarContainer {
+    position: relative;
+    color: var(--greyText);
+    padding: 10px var(--spacing);
+}
+
+.searchBarContainer i {
+    position: absolute;
+    top: 20px;
+    left: 28px;
+}
+
+.searchBarContainer #searchBox {
+    height: 36px;
+    width: 100%;
+    padding: 5px 15px 5px 40px;
+    border-radius: 50px;
+    background-color: var(--lightGrey);
+    border: none;
+    color: var(--greyText);
+}
+
+.chatPageContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.chatTitleBar {
+    border-bottom: 1px solid var(--lightGrey);
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+    padding: 10px;
+}
+
+.chatTitleBar label {
+    margin-right: 10px;
+}
+
+#userSearchTextbox {
+    border: none;
+    flex: 1;
+    font-weight: 200;
+    min-width: 350px;
+}
+
+#createChatButton {
+    border: none;
+    background-color: var(--blue);
+    color: #fff;
+    padding: 7px 20px;
+    margin: 10px auto;
+    border-radius: 40px;
+}
+
+#createChatButton:disabled {
+    background-color: var(--lightGrey);
+    color: var(--greyText);
+}

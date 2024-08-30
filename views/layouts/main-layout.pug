@@ -32,10 +32,11 @@ html(lang="en")
                 .mainSectionContainer.col-10.col-md-8.col-lg-6
                     .titleContainer 
                         h1 #{pageTitle}
+                        block headerButton
+
                     block content 
 
                 .d-none.d-md-block.col-md-2.col-lg-4
-                    span third column
 
         script(src='https://kit.fontawesome.com/a1814faeed.js' crossorigin='anonymous')
         script(src='https://code.jquery.com/jquery-3.7.1.min.js', integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=', crossorigin='anonymous')

@@ -5,6 +5,7 @@ const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema');
 const Chat = require('../../schemas/ChatSchema');
 const Message = require('../../schemas/MessageSchema');
+const Notification = require('../../schemas/NotificationSchema');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
@@ -20,24 +21,37 @@ router.post("/", async (req, res, next) => {
         chat: req.body.chatId
     };
 
-    try {
-        // Create a new message
-        let message = await Message.create(newMessage);
+    Message.create(newMessage)
+    .then(async (message) => {
+        // Populate sender và chat trong một lần gọi populate
+        await message.populate('sender');
+        await message.populate('chat');
 
-        // Populate 'sender' and 'chat' fields
-        message = await Message.findById(message._id)
-            .populate("sender")
-            .populate("chat")
-            .exec();
+        // Populate các users trong chat
+        await message.populate({ path: 'chat.users' });
 
-        // Update the latest message in the chat
-        await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
+        // Cập nhật latestMessage trong Chat
+        var chat = await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message })
+            .catch(error => console.log(error));
 
+        // Thêm thông báo
+        insertNotifications(chat, message);
+
+        // Trả về message đã được cập nhật
         res.status(201).send(message);
-    } catch (error) {
-        console.log(error);
+    })
+    .catch((error) => {
+        console.error(error);
         res.sendStatus(400);
-    }
-});
+    })
+})
+
+function insertNotifications(chat, message) {
+    chat.users.forEach(userId => {
+        if (userId.toString() === message.sender._id.toString()) return;
+
+        Notification.insertNotification(userId, message.sender._id, "newMessage", message.chat._id);
+    })
+}
 
 module.exports = router;

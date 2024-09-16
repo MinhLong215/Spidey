@@ -9,6 +9,7 @@ app.set("view engine", "pug");
 app.set("views", "views");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json()); // Sử dụng JSON cho các API
 
 router.get("/", (req, res, next) => {
     
@@ -49,7 +50,7 @@ router.post("/", async (req, res, next) => {
             .then((user) => {
                 req.session.user = user;
                 return res.redirect("/");
-            })
+            });
 
         }
         else{
@@ -62,9 +63,6 @@ router.post("/", async (req, res, next) => {
             }
             res.status(200).render("register", payload);
         }
-
-
-
     }
     else{
         payload.errorMessage = "Make sure each field has a valid value.";

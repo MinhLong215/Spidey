@@ -3,9 +3,11 @@ const app = express();
 const port = 3003;
 const middleware = require('./middleware')
 const path = require('path')
+const cors = require('cors');
 const bodyParser = require("body-parser")
 const mongoose = require("./database");
 const session = require("express-session");
+const bcrypt = require('bcrypt');
 
 const server = app.listen(port, () => console.log("Server listening on port " + port));
 const io = require("socket.io")(server, { pingTimeout: 60000 });
@@ -13,6 +15,16 @@ const io = require("socket.io")(server, { pingTimeout: 60000 });
 app.set("view engine", "pug");
 app.set("views", "views");
 
+// Cấu hình CORS
+const corsOptions = {
+    origin: 'http://localhost:3000', // URL của frontend
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+};
+app.use(cors(corsOptions));
+
+// Middleware
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -56,7 +68,7 @@ app.use("/api/chats", chatsApiRoute);
 app.use("/api/messages", messagesApiRoute);
 app.use("/api/notifications", notificationsApiRoute);
 
-
+//trang chính
 app.get("/", middleware.requireLogin, (req, res, next) => {
 
     var payload = {
@@ -68,6 +80,7 @@ app.get("/", middleware.requireLogin, (req, res, next) => {
     res.status(200).render("home", payload);
 })
 
+// Socket.io setup
 io.on("connection", socket => {
     
     socket.on("setup", userData => {
@@ -89,6 +102,8 @@ io.on("connection", socket => {
         chat.users.forEach(user => {
             if(user._id == newMessage.sender._id) return;
             socket.in(user._id).emit("message received", newMessage);
-        })
+        });
     });
-})
+});
+
+module.exports = app;

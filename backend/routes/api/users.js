@@ -9,10 +9,51 @@ const upload = multer({ dest: "uploads/" });
 const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema');
 const Notification = require('../../schemas/NotificationSchema');
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 const { error } = require('console');
 const { userInfo } = require('os');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Đăng ký người dùng
+router.post('/register', async (req, res) => {
+    const { firstName, lastName, username, email, password } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            firstName,
+            lastName,
+            username,
+            email,
+            password: hashedPassword
+        });
+        await newUser.save();
+        req.session.user = newUser; // Lưu thông tin người dùng vào session
+        res.status(201).json({ message: 'User registered successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error registering user' });
+    }
+});
+
+// Đăng nhập người dùng
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findOne({ username });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+        req.session.user = user; // Lưu thông tin người dùng vào session
+        res.status(200).json({ message: 'Login successful', user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error logging in' });
+    }
+});
 
 router.get("/", async (req, res, next) => {
     var searchObj = req.query;

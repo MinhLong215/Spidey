@@ -1,8 +1,6 @@
-// src/components/Register.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Register.css';
 
 const Register = () => {
@@ -31,7 +29,7 @@ const Register = () => {
             });
 
             if (response.status === 201) {
-                navigate('/login');
+                navigate('/login');  // Chuyển đến trang đăng nhập sau khi đăng ký thành công
             }
         } catch (error) {
             setErrorMessage('Error registering user');
@@ -51,6 +49,9 @@ const Register = () => {
                 <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                 <button type="submit">Register</button>
             </form>
+            <p>
+                Already have an account? <Link to="/login">Login here</Link>
+            </p>
         </div>
     );
 };

@@ -1,8 +1,6 @@
-// src/components/Login.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
@@ -21,7 +19,7 @@ const Login = () => {
 
             if (response.status === 200) {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
-                navigate('/');
+                navigate('/');  // Chuyển đến trang chủ sau khi đăng nhập thành công
             }
         } catch (error) {
             setErrorMessage('Invalid credentials');
@@ -37,6 +35,9 @@ const Login = () => {
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button type="submit">Login</button>
             </form>
+            <p>
+                Need an account? <Link to="/register">Register here</Link>
+            </p>
         </div>
     );
 };

@@ -26,7 +26,37 @@ $("#postTextarea, #replyTextarea").keyup(event => {
     submitButton.prop("disabled", false);
 })
 
-$("#submitPostButton, #submitReplyButton").click(() => {
+$("#submitPostButton").click(() => {
+    var textbox = $("#postTextarea");
+    var files = $("#postImageInput")[0].files;
+    var formData = new FormData();
+
+    formData.append("content", textbox.val());
+    
+    for (var i = 0; i < files.length; i++) {
+        formData.append("images", files[i]); // Lưu ý: "images" phải khớp với tên trên server
+    }
+
+    $.ajax({
+        url: "/api/posts",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: (postData) => {
+            var html = createPostHtml(postData);
+            $(".postsContainer").prepend(html);
+            textbox.val("");
+            $("#postImageInput").val(""); // Reset input
+            $("#submitPostButton").prop("disabled", true);
+        },
+        error: (error) => {
+            console.error("Error:", error);
+        }
+    });
+});
+
+$("#submitReplyButton").click(() => {
     var button = $(event.target);
 
     var isModal = button.parents(".modal").length == 1;
@@ -36,16 +66,15 @@ $("#submitPostButton, #submitReplyButton").click(() => {
         content: textbox.val()
     }
 
-    if(isModal){
+    if (isModal) {
         var id = button.data().id;
-        if (id == null) return alert("Button id is null");
+        if(id == null) return alert("Button id is null");
         data.replyTo = id;
     }
 
     $.post("/api/posts", data, postData => {
 
         if(postData.replyTo) {
-            emitNotification(postData.replyTo.postedBy)
             location.reload();
         }
         else {
@@ -478,6 +507,9 @@ function createPostHtml(postData, largeFont = false) {
                         ${replyFlag}
                         <div class='postBody'>
                             <span>${postData.content}</span>
+                            <div class='postImages'>
+                                ${postData.images.map(img => `<img src='${img}' alt='Post Image'>`).join('')}
+                            </div>
                         </div>
                         <div class='postFooter'>
                             <div class='postButtonContainer'>

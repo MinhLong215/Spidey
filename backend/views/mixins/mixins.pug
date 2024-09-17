@@ -3,7 +3,11 @@ mixin createPostForm(userLoggedIn)
         .userImageContainer
             img(src=userLoggedIn.profilePic, alt="User's profile picture")
         .textAreaContainer
-            textarea#postTextarea(placeholder="what's happening?")
+            textarea#postTextarea(placeholder="What's happening?")
+            .imageUploadContainer
+                input#postImageInput(type="file", accept="image/*", multiple)
+                label(for="postImageInput")
+                    i(class="fa-solid fa-image")
             .buttonsContainer
                 button#submitPostButton(disabled="") Post
 

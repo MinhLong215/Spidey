@@ -5,8 +5,23 @@ const bodyParser = require("body-parser")
 const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema');
 const Notification = require('../../schemas/NotificationSchema');
+const multer = require('multer');
+const path = require('path');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Cấu hình lưu trữ và tên tệp cho Multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/postImages');
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/", async (req, res, next) => {
 
@@ -68,7 +83,7 @@ router.get("/:id", async (req, res, next) => {
     res.status(200).send(results);
 })
 
-router.post("/", async (req, res, next) => {
+router.post("/", upload.array('images'), async (req, res, next) => {
     if (!req.body.content) {
         console.log("Content param not sent with request");
         return res.sendStatus(400);
@@ -76,32 +91,39 @@ router.post("/", async (req, res, next) => {
 
     var postData = {
         content: req.body.content,
-        postedBy: req.session.user
-    }
+        postedBy: req.session.user,
+        images: req.files ? req.files.map(file => '/uploads/postImages/' + file.filename) : [] // Path relative to public
+    };
 
-    if(req.body.replyTo){
+    if (req.body.replyTo) {
         postData.replyTo = req.body.replyTo;
     }
 
-    Post.create(postData)
-    .then(async newPost => {
-        newPost = await User.populate(newPost, { path: "postedBy" })
-        newPost = await Post.populate(newPost, { path: "replyTo" })
+    try {
+        // Tạo bài post
+        let newPost = await Post.create(postData);
 
-        if(newPost.replyTo !== undefined){
+        // Populate postedBy
+        newPost = await User.populate(newPost, { path: "postedBy" });
+
+        // Populate replyTo nếu có
+        if (newPost.replyTo) {
+            newPost = await Post.populate(newPost, { path: "replyTo" });
             const replyToPost = await Post.findById(newPost.replyTo).populate("postedBy");
+
             if (replyToPost) {
+                // Thêm thông báo cho người dùng được reply
                 await Notification.insertNotification(replyToPost.postedBy._id, req.session.user._id, "reply", newPost._id);
             }
-        }        
+        }
 
+        // Trả về bài post đã tạo
         res.status(201).send(newPost);
-    })
-    .catch(error => {
+    } catch (error) {
         console.log(error);
         res.sendStatus(400);
-    })
-})
+    }
+});
 
 router.put("/:id/like", async (req, res, next) => {
 

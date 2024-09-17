@@ -832,3 +832,37 @@ button span {
 #notificationList .active {
     background-color: white;
 }
+
+.postImages {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Tạo các cột linh hoạt với kích thước tối thiểu lớn hơn */
+    gap: 10px; /* Khoảng cách giữa các ảnh */
+}
+
+.postImages img {
+    width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
+    height: 200px; /* Đặt chiều cao cố định cho ảnh để làm cho chúng lớn hơn */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo và cắt đúng tỷ lệ */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fileInputContainer {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.fileInputContainer i {
+    font-size: 24px; /* Kích thước biểu tượng */
+    color: var(--blue); /* Màu của biểu tượng */
+}
+
+#postImageInput {
+    display: none; /* Ẩn input file */
+}
+
+.fileInputContainer label {
+    display: block;
+}

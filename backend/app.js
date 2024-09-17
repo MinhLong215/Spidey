@@ -61,6 +61,7 @@ app.use("/uploads", uploadRoute);
 app.use("/search", middleware.requireLogin,searchRoute);
 app.use("/messages", middleware.requireLogin,messagesRoute);
 app.use("/notifications", middleware.requireLogin,notificationsRoute);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api/posts", postsApiRoute);
 app.use("/api/users", usersApiRoute);

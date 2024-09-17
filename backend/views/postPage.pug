@@ -1,10 +1,18 @@
 extends layouts/main-layout.pug
 
-block content
+block content    
     script.
         var postId = '!{postId}'
-
     .postsContainer
+        if posts && posts.length
+            each post in posts
+                .post
+                    p= post.content
+                    if post.image
+                        img(src=post.image, alt="Post image")
+                    // Other post content
+        else
+            p No posts available.
 
     +createPostModals(userLoggedIn)
 

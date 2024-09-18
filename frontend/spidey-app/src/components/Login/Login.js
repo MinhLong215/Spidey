@@ -7,7 +7,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Hook điều hướng
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,11 +18,11 @@ const Login = () => {
             });
 
             if (response.status === 200) {
-                localStorage.setItem('user', JSON.stringify(response.data.user));
-                navigate('/');  // Chuyển đến trang chủ sau khi đăng nhập thành công
+                localStorage.setItem('user', JSON.stringify(response.data.user)); // Lưu thông tin người dùng vào localStorage
+                navigate('/'); // Điều hướng tới trang Home sau khi đăng nhập thành công
             }
         } catch (error) {
-            setErrorMessage('Invalid credentials');
+            setErrorMessage('Invalid credentials'); // Thông báo lỗi nếu đăng nhập thất bại
         }
     };
 
@@ -31,8 +31,20 @@ const Login = () => {
             <h2>Login</h2>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
                 <button type="submit">Login</button>
             </form>
             <p>

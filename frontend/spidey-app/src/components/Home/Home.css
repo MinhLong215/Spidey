@@ -3,20 +3,20 @@
 }
 
 .sidebar {
-    width: 80px;
+    width: 50%; /* Tăng kích thước sidebar */
     background-color: #fff;
-    padding: 20px;
+    padding: 15px; /* Tăng padding */
     border-right: 1px solid #ddd;
 }
 
 .nav-icons {
     list-style-type: none;
-    padding: 0;
+    padding-right: 100px;
 }
 
 .nav-icons li {
-    margin: 20px 0;
-    font-size: 24px;
+    margin: 20px 0; /* Tăng khoảng cách giữa các biểu tượng */
+    font-size: 24px; /* Tăng kích thước biểu tượng */
     color: #333;
     cursor: pointer;
 }
@@ -25,71 +25,71 @@
     background-color: red;
     color: white;
     border-radius: 50%;
-    padding: 2px 5px;
-    margin-left: 5px;
-    font-size: 12px;
+    padding: 3px 6px; /* Tăng kích thước chấm thông báo */
+    margin-left: 8px;
+    font-size: 12px; /* Tăng font size của số đếm */
 }
 
 .main-content {
     flex-grow: 1;
-    padding: 20px;
+    padding: 20px; /* Tăng padding */
 }
 
 .post-input-box {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
+    margin-bottom: 20px; /* Tăng khoảng cách bên dưới */
+    padding: 10px; /* Tăng padding */
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Tăng border-radius */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Tăng shadow */
 }
 
 .post-input-box .user-avatar img {
-    width: 40px;
-    height: 40px;
+    width: 50px; /* Tăng kích thước avatar */
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
 .post-input-box input {
     flex-grow: 1;
-    padding: 10px;
+    padding: 10px; /* Tăng padding của input */
     border: none;
     outline: none;
-    font-size: 16px;
+    font-size: 16px; /* Tăng font-size */
 }
 
 .post-button {
-    padding: 10px 20px;
+    padding: 10px 20px; /* Tăng padding button */
     background-color: #1da1f2;
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: 20px; /* Tăng border-radius */
     cursor: pointer;
 }
 
 .posts-container {
-    margin-top: 20px;
+    margin-top: 20px; /* Tăng khoảng cách trên */
 }
 
 .post {
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 20px; /* Tăng padding của post */
+    margin-bottom: 20px; /* Tăng khoảng cách giữa các bài post */
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Tăng border-radius */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Tăng shadow */
 }
 
 .post-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Tăng margin dưới */
 }
 
 .post-avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px; /* Tăng kích thước avatar */
+    height: 50px;
     border-radius: 50%;
 }
 
@@ -100,28 +100,28 @@
 
 .user-name {
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .user-handle {
     color: #666;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 .post-content {
-    margin-top: 10px;
+    margin-top: 10px; /* Tăng margin-top */
 }
 
 .post-image {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 10px; /* Tăng border-radius */
     margin-top: 10px;
 }
 
 .post-footer {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 10px; /* Tăng khoảng cách trên */
 }
 
 .post-footer svg {

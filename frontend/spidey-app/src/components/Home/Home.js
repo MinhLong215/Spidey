@@ -1,5 +1,3 @@
-// src/components/Home/Home.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +8,7 @@ import { faHome, faSearch, faBell, faEnvelope, faUser, faSignOutAlt, faThumbtack
 const Home = () => {
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user'))); // Lấy user từ localStorage
     const navigate = useNavigate(); // Use navigate hook for programmatic navigation
 
     useEffect(() => {
@@ -30,6 +29,51 @@ const Home = () => {
     const handleLogout = () => {
         localStorage.removeItem('user'); // Xóa thông tin người dùng khỏi localStorage
         navigate('/login'); // Điều hướng đến trang đăng nhập
+    };
+
+    const handleLike = async (postId) => {
+        try {
+            const response = await axios.put(`http://localhost:3003/api/posts/${postId}/like`);
+            // Cập nhật lại danh sách bài viết
+            setPosts(posts.map(post => post._id === postId ? response.data : post));
+        } catch (error) {
+            console.error("Error liking post", error);
+        }
+    };
+
+    const handleRetweet = async (postId) => {
+        try {
+            const response = await axios.post(`http://localhost:3003/api/posts/${postId}/retweet`);
+            // Cập nhật lại danh sách bài viết
+            setPosts(posts.map(post => post._id === postId ? response.data : post));
+        } catch (error) {
+            console.error("Error retweeting post", error);
+        }
+    };
+
+    const handleDelete = async (postId) => {
+        try {
+            await axios.delete(`http://localhost:3003/api/posts/${postId}`);
+            // Loại bỏ bài viết đã xóa khỏi danh sách
+            setPosts(posts.filter(post => post._id !== postId));
+        } catch (error) {
+            console.error("Error deleting post", error);
+        }
+    };
+
+    const handlePin = async (postId) => {
+        try {
+            const response = await axios.put(`http://localhost:3003/api/posts/${postId}/pin`);
+            // Cập nhật lại danh sách bài viết
+            setPosts(posts.map(post => post._id === postId ? response.data : post));
+        } catch (error) {
+            console.error("Error pinning post", error);
+        }
+    };
+
+    const handleComment = (postId) => {
+        // Điều hướng đến trang chi tiết bài viết để thêm bình luận
+        navigate(`/posts/${postId}`);
     };
 
     return (
@@ -53,7 +97,7 @@ const Home = () => {
                 <div className="post-input-box">
                     <div className="user-avatar">
                         {/* Assuming a default avatar if no posts */}
-                        <img src={posts.length > 0 && posts[0].user ? posts[0].user.profilePic : 'path_to_default_avatar'} alt="User Avatar" />
+                        <img src={user && user.profilePic ? user.profilePic : 'path_to_default_avatar'} alt="User Avatar" />
                     </div>
                     <input type="text" placeholder="What's happening?" />
                     <button className="post-button">Post</button>
@@ -70,24 +114,34 @@ const Home = () => {
                                         {/* Ensure user data exists */}
                                         <img src={post.user ? post.user.profilePic : 'path_to_default_avatar'} alt="User Avatar" className="post-avatar" />
                                         <div>
-                                            <span className="user-name">{post.user ? post.user.name : 'Unknown User'}</span>
-                                            <span className="user-handle">@{post.user ? post.user.username : 'unknown'}</span>
+                                            {/* Nếu không có tên user thì sử dụng fallback "Unknown User" */}
+                                            <span className="user-name">{post.user && post.user.name ? post.user.name : 'Unknown User'}</span>
+                                            <span className="user-handle">@{post.user && post.user.username ? post.user.username : 'unknown'}</span>
                                             <span className="post-time">16 hours ago</span>
                                         </div>
                                     </div>
                                     <div className="post-actions">
-                                        <FontAwesomeIcon icon={faThumbtack} />
-                                        <FontAwesomeIcon icon={faTrash} />
+                                        <FontAwesomeIcon icon={faThumbtack} onClick={() => handlePin(post._id)} /> {/* Pin */}
+                                        <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(post._id)} /> {/* Xóa bài viết */}
                                     </div>
                                 </div>
                                 <div className="post-content">
-                                    <p>{post.content}</p>
-                                    {post.image && <img src={post.image} alt="Post Image" className="post-image" />}
+                                    <p>{post.content ? post.content : 'No content available'}</p>
+                                    {post.images && post.images.map((image, idx) => (
+                                        <img key={idx} src={image} alt="Post Image" className="post-image" />
+                                    ))}
+
+                                    {/* Hiển thị bài viết trả lời nếu có */}
+                                    {post.replyTo && post.replyTo.content && (
+                                        <div className="reply-to">
+                                            <p><strong>Replying to:</strong> {post.replyTo.content}</p>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="post-footer">
-                                    <FontAwesomeIcon icon={faComment} />
-                                    <FontAwesomeIcon icon={faRetweet} />
-                                    <FontAwesomeIcon icon={faHeart} />
+                                    <FontAwesomeIcon icon={faComment} onClick={() => handleComment(post._id)} /> {/* Comment */}
+                                    <FontAwesomeIcon icon={faRetweet} onClick={() => handleRetweet(post._id)} /> {/* Retweet */}
+                                    <FontAwesomeIcon icon={faHeart} onClick={() => handleLike(post._id)} /> {/* Like */}
                                 </div>
                             </div>
                         ))

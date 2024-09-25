@@ -1,0 +1,46 @@
+.header {
+    background: linear-gradient(to right, #4299e1, #9f7aea);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.125rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    margin-right: 1rem;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.125rem;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+}
+
+.userName {
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+}

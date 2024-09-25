@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Đăng ký người dùng
 router.post('/register', async (req, res) => {
-    const { firstName, lastName, username, email, password } = req.body;
+    const { firstName, lastName, username, email, password } = req.body; // Thêm role
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({
@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
             lastName,
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
         });
         await newUser.save();
         req.session.user = newUser; // Lưu thông tin người dùng vào session
@@ -173,6 +173,144 @@ router.post("/coverPhoto", upload.single("croppedImage"), async (req, res, next)
         res.sendStatus(204);
     })
 
+});
+
+// Thêm người dùng
+router.post('/add', async (req, res) => {
+    const { firstName, lastName, username, email, password, role } = req.body; // Thêm role
+    try {
+        if (!firstName || !lastName || !username || !email || !password || !role) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Check if email or username already exists
+        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email or username already exists' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            firstName,
+            lastName,
+            username,
+            email,
+            password: hashedPassword,
+            role 
+        });
+        await newUser.save();
+        res.status(201).json({ message: 'User added successfully', user: newUser });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding user', error: error.message });
+    }
+});
+
+// Sửa người dùng
+router.put('/edit/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const { firstName, lastName, username, email, password, role } = req.body; // Thêm role
+    try {
+        if (!firstName || !lastName || !username || !email || !role) {
+            return res.status(400).json({ message: 'All fields except password are required' });
+        }
+
+        // Check if email or username already exists for other users
+        const existingUser = await User.findOne({ 
+            $or: [{ email }, { username }],
+            _id: { $ne: userId }
+        });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email or username already exists' });
+        }
+
+        const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
+        const updatedData = {
+            firstName,
+            lastName,
+            username,
+            email,
+            role, 
+            ...(hashedPassword && { password: hashedPassword })
+        };
+        const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
+        if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+        res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error updating user', error: error.message });
+    }
+});
+
+// Xóa người dùng
+router.delete('/delete/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const deletedUser = await User.findByIdAndDelete(userId);
+        if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting user' });
+    }
+});
+
+// Tìm kiếm người dùng
+router.get('/search', async (req, res) => {
+    const { query } = req.query;
+    try {
+        const searchResults = await User.find({
+            $or: [
+                { firstName: { $regex: query, $options: 'i' } },
+                { lastName: { $regex: query, $options: 'i' } },
+                { username: { $regex: query, $options: 'i' } },
+                { email: { $regex: query, $options: 'i' } }
+            ]
+        });
+        res.status(200).json(searchResults);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error searching users' });
+    }
+});
+
+// Thống kê người dùng theo ngày
+router.get('/stats/users', async (req, res) => {
+    const { startDate, endDate } = req.query;
+
+    try {
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+
+        const users = await User.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: start,
+                        $lte: end
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ]);
+
+        res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching user stats' });
+    }
 });
 
 module.exports = router;

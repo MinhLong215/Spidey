@@ -1,0 +1,105 @@
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 60px; /* Adjust based on header height */
+    bottom: 0;
+    overflow-y: auto;
+    border-radius: 8px; /* Added rounded corners */
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 15px 0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s; /* Added transform transition */
+}
+
+.nav-link:hover {
+    transform: scale(1.05); /* Added scale effect on hover */
+}
+
+.hover-blue:hover {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #0056b3; /* Added border for hover state */
+    outline: none; /* Removed outline */
+}
+
+.hover-green:hover {
+    background-color: #28a745;
+    color: white;
+    border: 1px solid #1e7e34; /* Added border for hover state */
+    outline: none; /* Removed outline */
+}
+
+.hover-purple:hover {
+    background-color: #6f42c1;
+    color: white;
+    border: 1px solid #5a32a3; /* Added border for hover state */
+    outline: none; /* Removed outline */
+}
+
+.hover-red:hover {
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid #b21f2d; /* Added border for hover state */
+    outline: none; /* Removed outline */
+}
+
+.hover-yellow:hover {
+    background-color: #ffc107;
+    color: white;
+    border: 1px solid #e0a800; /* Added border for hover state */
+    outline: none; /* Removed outline */
+}
+
+.active-blue {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05); /* Added scale effect for active state */
+    border: 1px solid #0056b3; /* Added border for active state */
+    outline: none; /* Removed outline */
+}
+
+.active-green {
+    background-color: #28a745;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05); /* Added scale effect for active state */
+    border: 1px solid #1e7e34; /* Added border for active state */
+    outline: none; /* Removed outline */
+}
+
+.active-purple {
+    background-color: #6f42c1;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05); /* Added scale effect for active state */
+    border: 1px solid #5a32a3; /* Added border for active state */
+    outline: none; /* Removed outline */
+}
+
+.active-red {
+    background-color: #dc3545;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05); /* Added scale effect for active state */
+    border: 1px solid #b21f2d; /* Added border for active state */
+    outline: none; /* Removed outline */
+}

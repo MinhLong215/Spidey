@@ -210,22 +210,30 @@ router.delete("/:id", (req, res, next) => {
 })
 
 router.put("/:id", async (req, res, next) => {
+    try {
+        if (req.body.pinned !== undefined) {
+            // Cập nhật tất cả các bài đăng khác của người dùng
+            await Post.updateMany({ postedBy: req.session.user }, { pinned: false });
+        }
 
-    if(req.body.pinned !== undefined) {
-        await Post.updateMany({ postedBy: req.session.user }, { pinned: false })
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
-    }
+        console.log(req.body);
 
-    Post.findByIdAndUpdate(req.params.id, req.body)
-    .then(() => res.sendStatus(204))
-    .catch(error => {
+        // Tìm và cập nhật bài đăng theo ID
+        const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+        if (!updatedPost) {
+            return res.sendStatus(404);
+        }
+
+        console.log(updatedPost);
+
+        res.status(200).send(updatedPost); 
+    } catch (error) {
         console.log(error);
-        res.sendStatus(400);
-    })
-})
+        res.sendStatus(400); 
+    }
+});
+
 
 async function getPosts(filter) {
     var results = await Post.find(filter)
@@ -238,5 +246,43 @@ async function getPosts(filter) {
     results = await User.populate(results, { path: "replyTo.postedBy"})
     return await User.populate(results, { path: "retweetData.postedBy"});
 }
+
+// Thống kê bài viết theo ngày
+router.get('/stats/posts', async (req, res) => {
+    const { startDate, endDate } = req.query;
+    try {
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: start,
+                        $lte: end
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ]);
+
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching post stats' });
+    }
+});
 
 module.exports = router;

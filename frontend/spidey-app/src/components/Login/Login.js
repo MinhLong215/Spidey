@@ -18,11 +18,16 @@ const Login = () => {
             });
 
             if (response.status === 200) {
-                localStorage.setItem('user', JSON.stringify(response.data.user)); // Lưu thông tin người dùng vào localStorage
-                navigate('/'); // Điều hướng tới trang Home sau khi đăng nhập thành công
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                const userRole = response.data.user.role;
+                if (userRole === 'admin') {
+                    navigate('/admin/users'); 
+                } else {
+                    navigate('/'); 
+                }
             }
         } catch (error) {
-            setErrorMessage('Invalid credentials'); // Thông báo lỗi nếu đăng nhập thất bại
+            setErrorMessage('Invalid credentials'); 
         }
     };
 

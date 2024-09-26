@@ -1,0 +1,25 @@
+.search-wrapper {
+    padding: 20px;
+}
+
+.search-wrapper h2 {
+    margin-bottom: 10px;
+}
+
+.search-wrapper form {
+    display: flex;
+}
+
+.search-wrapper input {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.search-wrapper button {
+    padding: 10px;
+}
+
+.error-message {
+    color: red;
+}

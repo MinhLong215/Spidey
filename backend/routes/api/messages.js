@@ -54,4 +54,14 @@ function insertNotifications(chat, message) {
     })
 }
 
+router.get('/:chatId', async (req, res) => {
+    try {
+        const messages = await Message.find({ chat: req.params.chatId }).populate('sender');
+        res.status(200).json(messages);
+    } catch (error) {
+        console.error("Error fetching messages", error);
+        res.sendStatus(500);
+    }
+});
+
 module.exports = router;

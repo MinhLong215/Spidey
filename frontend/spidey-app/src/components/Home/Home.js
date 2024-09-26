@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import './Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faSearch, faBell, faEnvelope, faUser, faSignOutAlt, faThumbtack, faTrash, faRetweet, faHeart, faComment, faSpider } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,7 @@ const Home = () => {
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user'))); // Lấy user từ localStorage
+    const [newPostContent, setNewPostContent] = useState(''); // Trạng thái cho nội dung bài viết mới
     const navigate = useNavigate(); // Use navigate hook for programmatic navigation
 
     useEffect(() => {
@@ -44,8 +45,8 @@ const Home = () => {
     const handleRetweet = async (postId) => {
         try {
             const response = await axios.post(`http://localhost:3003/api/posts/${postId}/retweet`);
-            // Cập nhật lại danh sách bài viết
-            setPosts(posts.map(post => post._id === postId ? response.data : post));
+            // Thêm bài viết retweet vào danh sách
+            setPosts([response.data, ...posts]);
         } catch (error) {
             console.error("Error retweeting post", error);
         }
@@ -76,6 +77,40 @@ const Home = () => {
         navigate(`/posts/${postId}`);
     };
 
+    const goToProfile = () => {
+        if (user && user.username) {
+            navigate(`/profile/${user.username}`);
+        } else {
+            alert("User not logged in!");
+        }
+    };
+
+    // Thêm hàm điều hướng đến trang notifications
+    const goToNotifications = () => {
+        navigate('/notifications'); // Điều hướng đến trang notifications
+    };
+
+    // Thêm hàm điều hướng đến trang messages
+    const goToMessages = () => {
+        navigate('/messages'); // Điều hướng đến trang messages
+    };
+
+    const handlePostSubmit = async (e) => {
+        e.preventDefault();
+        if (!newPostContent.trim()) return; // Không gửi bài viết rỗng
+
+        try {
+            const response = await axios.post('http://localhost:3003/api/posts', {
+                content: newPostContent,
+                images: [] // Thêm hình ảnh nếu cần
+            });
+            setPosts([response.data, ...posts]); // Thêm bài viết mới vào đầu danh sách
+            setNewPostContent(''); // Xóa nội dung bài viết mới
+        } catch (error) {
+            console.error("Error creating post", error);
+        }
+    };
+
     return (
         <div className="home-wrapper">
             {/* Sidebar */}
@@ -83,10 +118,11 @@ const Home = () => {
                 <ul className="nav-icons">
                     <li><FontAwesomeIcon icon={faSpider} /></li>
                     <li><FontAwesomeIcon icon={faHome} /></li>
-                    <li><FontAwesomeIcon icon={faSearch} /></li>
-                    <li><FontAwesomeIcon icon={faBell} /><span className="notification-count">6</span></li>
-                    <li><FontAwesomeIcon icon={faEnvelope} /><span className="message-count">3</span></li>
-                    <li><FontAwesomeIcon icon={faUser} /></li>
+                    <li onClick={() => navigate('/search')}><FontAwesomeIcon icon={faSearch} /></li>
+                    {/* Cập nhật biểu tượng chuông thông báo để điều hướng đến trang notifications */}
+                    <li onClick={goToNotifications}><FontAwesomeIcon icon={faBell} /><span className="notification-count">6</span></li>
+                    <li onClick={goToMessages}><FontAwesomeIcon icon={faEnvelope} /><span className="message-count">3</span></li> {/* Điều hướng đến trang messages */}
+                    <li onClick={goToProfile}><FontAwesomeIcon icon={faUser} /></li> {/* Điều hướng đến trang profile */}
                     <li onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt} /></li> {/* Nút đăng xuất */}
                 </ul>
             </div>
@@ -96,11 +132,17 @@ const Home = () => {
                 {/* Post Input Box */}
                 <div className="post-input-box">
                     <div className="user-avatar">
-                        {/* Assuming a default avatar if no posts */}
                         <img src={user && user.profilePic ? user.profilePic : 'path_to_default_avatar'} alt="User Avatar" />
                     </div>
-                    <input type="text" placeholder="What's happening?" />
-                    <button className="post-button">Post</button>
+                    <form onSubmit={handlePostSubmit}>
+                        <input 
+                            type="text" 
+                            placeholder="What's happening?" 
+                            value={newPostContent} 
+                            onChange={(e) => setNewPostContent(e.target.value)} // Cập nhật nội dung bài viết
+                        />
+                        <button className="post-button" type="submit">Post</button>
+                    </form>
                 </div>
 
                 {/* Display Posts */}
@@ -111,10 +153,8 @@ const Home = () => {
                             <div key={post._id} className="post">
                                 <div className="post-header">
                                     <div className="user-info">
-                                        {/* Ensure user data exists */}
                                         <img src={post.user ? post.user.profilePic : 'path_to_default_avatar'} alt="User Avatar" className="post-avatar" />
                                         <div>
-                                            {/* Nếu không có tên user thì sử dụng fallback "Unknown User" */}
                                             <span className="user-name">{post.user && post.user.name ? post.user.name : 'Unknown User'}</span>
                                             <span className="user-handle">@{post.user && post.user.username ? post.user.username : 'unknown'}</span>
                                             <span className="post-time">16 hours ago</span>
@@ -130,8 +170,6 @@ const Home = () => {
                                     {post.images && post.images.map((image, idx) => (
                                         <img key={idx} src={image} alt="Post Image" className="post-image" />
                                     ))}
-
-                                    {/* Hiển thị bài viết trả lời nếu có */}
                                     {post.replyTo && post.replyTo.content && (
                                         <div className="reply-to">
                                             <p><strong>Replying to:</strong> {post.replyTo.content}</p>

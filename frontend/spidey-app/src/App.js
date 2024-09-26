@@ -7,7 +7,11 @@ import Admin from './components/Admin/Admin';
 import Users from './components/Admin/Users';
 import Posts from './components/Admin/Posts';
 import Statistics from './components/Admin/Statistics';
-// ... other imports ...
+import ProfilePage from './components/Profile/Profile';
+import Notification from './components/Notification/Notification';
+import Message from './components/Message/Message'; 
+import MessagesList from './components/Message/MessagesList'; 
+import Search from './components/Search/Search';
 
 // Tạo PrivateRoute để bảo vệ các route cần đăng nhập
 const PrivateRoute = ({ children }) => {
@@ -24,7 +28,12 @@ function App() {
                 <Route path="/admin/users" element={<Users />} />
                 <Route path="/admin/posts" element={<Posts />} />
                 <Route path="/admin/statistics" element={<Statistics />} />
-                
+                <Route path="/profile/:username" element={<ProfilePage />} />
+                <Route path="/notifications" element={<Notification />} />
+                <Route path="/messages" element={<MessagesList />} /> 
+                <Route path="/messages/:chatId" element={<Message />} />
+                <Route path="/search" element={<Search />} />
+
                 {/* Route Home được bảo vệ, chỉ cho phép truy cập khi đã đăng nhập */}
                 <Route
                     path="/"

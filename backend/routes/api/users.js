@@ -313,4 +313,17 @@ router.get('/stats/users', async (req, res) => {
     }
 });
 
+router.get('/:username', async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username }).populate('following').populate('followers');
+        if (!user) {
+            return res.sendStatus(404);
+        }
+        res.status(200).send(user);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+});
+
 module.exports = router;

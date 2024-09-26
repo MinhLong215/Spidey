@@ -1,0 +1,28 @@
+.messages-list {
+    padding: 20px;
+}
+
+.messages-list h2 {
+    margin-bottom: 10px;
+}
+
+.messages-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.messages-list li {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.messages-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.error-message {
+    color: red;
+}

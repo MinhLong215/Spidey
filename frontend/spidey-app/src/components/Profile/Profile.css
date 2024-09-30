@@ -1,78 +1,78 @@
-/* Container for the profile page */
 .profile-page {
-    width: 100%;
-    max-width: 1000px; /* Giới hạn chiều rộng tối đa */
-    margin: 0 auto; /* Căn giữa container */
-    padding: 20px; /* Thêm padding bên trong container */
-    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng */
+    display: flex;
 }
 
-/* Profile Header */
+.sidebar {
+    width: 80px;
+    background-color: #333;
+    height: 100vh;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-icons {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-icons li {
+    margin: 20px 0;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 .profile-header {
-    position: relative;
-    text-align: center; /* Căn giữa văn bản trong header */
-    margin-bottom: 20px; /* Khoảng cách dưới header */
-    overflow: hidden; /* Ẩn nội dung bị tràn */
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f2f2;
 }
 
-/* Cover Photo Styles */
 .cover-photo {
-    width: 100%; /* Chiều rộng đầy đủ cho ảnh bìa */
-    height: 200px; /* Chiều cao cố định */
-    object-fit: cover; /* Cắt ảnh để phù hợp với kích thước */
-    border-radius: 10px; /* Bo góc cho ảnh bìa */
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 
-/* Profile Picture Styles */
 .profile-pic {
-    width: 150px; /* Chiều rộng cố định cho ảnh đại diện */
-    height: 150px; /* Chiều cao cố định cho ảnh đại diện */
-    border-radius: 50%; /* Hình tròn */
-    position: absolute; /* Đặt ảnh đại diện theo vị trí */
-    bottom: -75px; /* Đè lên ảnh bìa */
-    left: 50%; /* Căn giữa theo chiều ngang */
-    transform: translateX(-50%); /* Căn giữa chính xác */
-    border: 4px solid white; /* Viền trắng */
-    background-color: white; /* Nền trắng */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ cho ảnh đại diện */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid white;
+    position: relative;
+    top: -50px; /* Đưa ảnh profile lên trên */
+    left: 20px;
 }
 
-/* Profile Info Styles */
 .profile-info {
-    margin-top: 100px; /* Khoảng cách cho ảnh đại diện */
-    padding: 10px; /* Thêm padding cho info */
-    background-color: rgba(255, 255, 255, 0.9); /* Nền trắng trong suốt */
-    border-radius: 10px; /* Bo góc cho info */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho info */
+    margin-left: 20px;
 }
 
-/* Profile Details Styles */
 .profile-details {
-    display: flex; /* Flexbox layout */
-    justify-content: space-around; /* Phân chia các chi tiết */
-    margin-top: 20px; /* Khoảng cách trên các chi tiết */
-    flex-wrap: wrap; /* Chia hàng nếu cần thiết */
+    padding: 20px;
 }
 
-/* Responsive Styles */
-@media (max-width: 600px) {
-    .profile-pic {
-        width: 100px; /* Kích thước nhỏ hơn cho ảnh đại diện */
-        height: 100px; /* Chiều cao nhỏ hơn */
-        bottom: -50px; /* Điều chỉnh chồng lấp */
-    }
+.followers-info {
+    display: flex;
+    justify-content: space-between;
+}
 
-    .profile-info {
-        margin-top: 80px; /* Khoảng cách điều chỉnh */
-    }
+.action-buttons {
+    margin-top: 10px;
+}
 
-    .profile-details {
-        flex-direction: column; /* Chồng dọc các chi tiết */
-        align-items: center; /* Căn giữa các chi tiết */
-    }
-    
-    .profile-details span {
-        font-size: 14px; /* Kích thước chữ nhỏ hơn cho thiết bị di động */
-        margin-bottom: 10px; /* Khoảng cách giữa các chi tiết */
-    }
+.followButton {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.followButton.following {
+    background-color: #007bff;
+    color: white;
 }

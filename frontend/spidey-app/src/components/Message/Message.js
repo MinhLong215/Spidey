@@ -9,15 +9,19 @@ const Message = () => {
     const { chatId } = useParams(); // Lấy chatId từ URL
     const [messages, setMessages] = useState([]);
     const [content, setContent] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch messages when component mounts
         const fetchMessages = async () => {
             try {
                 const response = await axios.get(`http://localhost:3003/api/messages/${chatId}`);
                 setMessages(response.data);
             } catch (error) {
                 console.error("Error fetching messages", error);
+                setError("Error fetching messages");
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -26,17 +30,18 @@ const Message = () => {
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!content) return;
+        if (!content.trim()) return; // Kiểm tra nội dung tin nhắn
 
         try {
             const response = await axios.post('http://localhost:3003/api/messages', {
                 content,
                 chatId,
             });
-            setMessages([...messages, response.data]); // Thêm message mới vào danh sách
-            setContent(''); // Xóa nội dung input
+            setMessages((prevMessages) => [...prevMessages, response.data]); // Thêm message mới vào danh sách
+            setContent('');
         } catch (error) {
             console.error("Error sending message", error);
+            setError("Error sending message");
         }
     };
 
@@ -44,7 +49,11 @@ const Message = () => {
         <div className="message-wrapper">
             <h2>Chat Messages</h2>
             <div className="messages-container">
-                {messages.length > 0 ? (
+                {loading ? (
+                    <p>Loading messages...</p>
+                ) : error ? (
+                    <p className="error-message">{error}</p>
+                ) : messages.length > 0 ? (
                     messages.map((message) => (
                         <div key={message._id} className="message">
                             <span className="message-sender">{message.sender.username}: </span>

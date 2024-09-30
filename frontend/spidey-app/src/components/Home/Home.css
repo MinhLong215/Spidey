@@ -1,12 +1,61 @@
 .home-wrapper {
     display: flex;
+    padding: 0;
+    margin: 0; 
+    width: 100%; 
 }
 
 .sidebar {
-    width: 50%; /* Tăng kích thước sidebar */
+    width: 20%;
     background-color: #fff;
-    padding: 15px; /* Tăng padding */
+    padding: 15px;
     border-right: 1px solid #ddd;
+    margin-left: 0;
+}
+
+.right-sidebar {
+    width: 20%;
+    background-color: #fff;
+    padding: 15px;
+    border-left: 1px solid #ddd;
+}
+
+.main-content {
+    flex-grow: 1;
+    max-width: 60%;
+    padding: 20px;
+}
+
+.post-input-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-image {
+    max-width: 100%; 
+    height: auto; 
+    max-height: 400px; 
+    object-fit: cover; 
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.posts-container {
+    overflow-y: auto; 
+    max-height: 600px;
+}
+
+.post {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-icons {
@@ -15,8 +64,8 @@
 }
 
 .nav-icons li {
-    margin: 20px 0; /* Tăng khoảng cách giữa các biểu tượng */
-    font-size: 24px; /* Tăng kích thước biểu tượng */
+    margin: 20px 0;
+    font-size: 24px;
     color: #333;
     cursor: pointer;
 }
@@ -25,28 +74,13 @@
     background-color: red;
     color: white;
     border-radius: 50%;
-    padding: 3px 6px; /* Tăng kích thước chấm thông báo */
+    padding: 3px 6px;
     margin-left: 8px;
-    font-size: 12px; /* Tăng font size của số đếm */
-}
-
-.main-content {
-    flex-grow: 1;
-    padding: 20px; /* Tăng padding */
-}
-
-.post-input-box {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px; /* Tăng khoảng cách bên dưới */
-    padding: 10px; /* Tăng padding */
-    background-color: #fff;
-    border-radius: 10px; /* Tăng border-radius */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Tăng shadow */
+    font-size: 12px;
 }
 
 .post-input-box .user-avatar img {
-    width: 50px; /* Tăng kích thước avatar */
+    width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-right: 10px;
@@ -54,41 +88,29 @@
 
 .post-input-box input {
     flex-grow: 1;
-    padding: 10px; /* Tăng padding của input */
+    padding: 10px;
     border: none;
     outline: none;
-    font-size: 16px; /* Tăng font-size */
+    font-size: 16px;
 }
 
 .post-button {
-    padding: 10px 20px; /* Tăng padding button */
+    padding: 10px 20px;
     background-color: #1da1f2;
     color: white;
     border: none;
-    border-radius: 20px; /* Tăng border-radius */
+    border-radius: 20px;
     cursor: pointer;
-}
-
-.posts-container {
-    margin-top: 20px; /* Tăng khoảng cách trên */
-}
-
-.post {
-    padding: 20px; /* Tăng padding của post */
-    margin-bottom: 20px; /* Tăng khoảng cách giữa các bài post */
-    background-color: #fff;
-    border-radius: 10px; /* Tăng border-radius */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Tăng shadow */
 }
 
 .post-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px; /* Tăng margin dưới */
+    margin-bottom: 10px;
 }
 
 .post-avatar {
-    width: 50px; /* Tăng kích thước avatar */
+    width: 50px;
     height: 50px;
     border-radius: 50%;
 }
@@ -109,19 +131,13 @@
 }
 
 .post-content {
-    margin-top: 10px; /* Tăng margin-top */
-}
-
-.post-image {
-    width: 100%;
-    border-radius: 10px; /* Tăng border-radius */
     margin-top: 10px;
 }
 
 .post-footer {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px; /* Tăng khoảng cách trên */
+    margin-top: 10px;
 }
 
 .post-footer svg {

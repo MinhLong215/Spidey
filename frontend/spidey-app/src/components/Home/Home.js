@@ -119,17 +119,15 @@ const Home = () => {
                     <li><FontAwesomeIcon icon={faSpider} /></li>
                     <li><FontAwesomeIcon icon={faHome} /></li>
                     <li onClick={() => navigate('/search')}><FontAwesomeIcon icon={faSearch} /></li>
-                    {/* Cập nhật biểu tượng chuông thông báo để điều hướng đến trang notifications */}
                     <li onClick={goToNotifications}><FontAwesomeIcon icon={faBell} /><span className="notification-count">6</span></li>
-                    <li onClick={goToMessages}><FontAwesomeIcon icon={faEnvelope} /><span className="message-count">3</span></li> {/* Điều hướng đến trang messages */}
-                    <li onClick={goToProfile}><FontAwesomeIcon icon={faUser} /></li> {/* Điều hướng đến trang profile */}
-                    <li onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt} /></li> {/* Nút đăng xuất */}
+                    <li onClick={goToMessages}><FontAwesomeIcon icon={faEnvelope} /><span className="message-count">3</span></li>
+                    <li onClick={goToProfile}><FontAwesomeIcon icon={faUser} /></li>
+                    <li onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt} /></li>
                 </ul>
             </div>
-
+    
             {/* Main Content */}
             <div className="main-content">
-                {/* Post Input Box */}
                 <div className="post-input-box">
                     <div className="user-avatar">
                         <img src={user && user.profilePic ? user.profilePic : 'path_to_default_avatar'} alt="User Avatar" />
@@ -139,13 +137,12 @@ const Home = () => {
                             type="text" 
                             placeholder="What's happening?" 
                             value={newPostContent} 
-                            onChange={(e) => setNewPostContent(e.target.value)} // Cập nhật nội dung bài viết
+                            onChange={(e) => setNewPostContent(e.target.value)} 
                         />
                         <button className="post-button" type="submit">Post</button>
                     </form>
                 </div>
-
-                {/* Display Posts */}
+    
                 <div className="posts-container">
                     {error && <p className="error-message">{error}</p>}
                     {posts.length > 0 ? (
@@ -161,8 +158,8 @@ const Home = () => {
                                         </div>
                                     </div>
                                     <div className="post-actions">
-                                        <FontAwesomeIcon icon={faThumbtack} onClick={() => handlePin(post._id)} /> {/* Pin */}
-                                        <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(post._id)} /> {/* Xóa bài viết */}
+                                        <FontAwesomeIcon icon={faThumbtack} onClick={() => handlePin(post._id)} />
+                                        <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(post._id)} />
                                     </div>
                                 </div>
                                 <div className="post-content">
@@ -177,9 +174,9 @@ const Home = () => {
                                     )}
                                 </div>
                                 <div className="post-footer">
-                                    <FontAwesomeIcon icon={faComment} onClick={() => handleComment(post._id)} /> {/* Comment */}
-                                    <FontAwesomeIcon icon={faRetweet} onClick={() => handleRetweet(post._id)} /> {/* Retweet */}
-                                    <FontAwesomeIcon icon={faHeart} onClick={() => handleLike(post._id)} /> {/* Like */}
+                                    <FontAwesomeIcon icon={faComment} onClick={() => handleComment(post._id)} />
+                                    <FontAwesomeIcon icon={faRetweet} onClick={() => handleRetweet(post._id)} />
+                                    <FontAwesomeIcon icon={faHeart} onClick={() => handleLike(post._id)} />
                                 </div>
                             </div>
                         ))
@@ -188,8 +185,18 @@ const Home = () => {
                     )}
                 </div>
             </div>
+    
+            {/* Right Sidebar */}
+            <div className="right-sidebar">
+                <h3>Right Sidebar</h3>
+                <ul>
+                    <li>Trending Topics</li>
+                    <li>Suggested Users</li>
+                    <li>Other Info</li>
+                </ul>
+            </div>
         </div>
-    );
+    );    
 };
 
 export default Home;

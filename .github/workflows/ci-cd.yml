@@ -29,6 +29,10 @@ jobs:
       run: npm install
       working-directory: ./frontend/spidey-app
 
+    - name: Clear npm cache
+      run: npm cache clean --force
+      working-directory: ./frontend/spidey-app
+
     - name: Build frontend
       run: |
         CI=false npm run build  # Bỏ qua lỗi ESLint trong môi trường CI

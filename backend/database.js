@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
 
 class Database {
+
     constructor() {
         this.connect();
     }
 
     connect() {
-        const dbURI = process.env.MONGODB_URI; // Lấy giá trị từ biến môi trường
-        mongoose.connect(dbURI, {
+        mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
         .then(() => {
-            console.log("database connection successful");
+            console.log("Database connection successful");
         })
         .catch((err) => {
-            console.log("database connection error " + err);
+            console.error("Database connection error: ", err.message); // In ra thông báo lỗi chi tiết
         });
     }
 }

@@ -4,52 +4,37 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     services:
-      mongo:
+      mongodb:
         image: mongo:latest
         ports:
           - 27017:27017
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
-        volumes:
-          - mongo-data:/data/db
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
 
-    - name: Install dependencies
-      run: |
-        cd backend
-        npm install
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./backend  # Thay đổi thư mục nếu cần
 
-    - name: Run tests
-      run: |
-        cd backend
-        npm test
+      - name: Run tests
+        run: npm test
+        working-directory: ./backend  # Thay đổi thư mục nếu cần
 
-    - name: Build frontend
-      run: |
-        cd frontend/spidey-app
-        npm install
-        npm run build
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./frontend/spidey-app  # Thay đổi thư mục nếu cần
 
-    - name: Deploy (Your deploy step here)
-      run: echo "Deploying application..."
-
-volumes:
-  mongo-data:
+      - name: Deploy
+        run: echo "Deploy your application here"

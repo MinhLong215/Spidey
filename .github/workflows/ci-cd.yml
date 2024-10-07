@@ -3,38 +3,45 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - main  # Chạy khi có push lên nhánh main
+  pull_request:
+    branches:
+      - main  # Chạy cho pull request vào nhánh main
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'  # Chỉnh sửa nếu bạn cần phiên bản Node.js khác
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./backend  # Thay đổi thư mục nếu cần
+    - name: Install backend dependencies
+      run: npm install
+      working-directory: ./backend  # Đảm bảo thư mục chính xác
 
-      - name: Run tests
-        run: npm test
-        working-directory: ./backend  # Thay đổi thư mục nếu cần
+    - name: Run backend tests
+      run: npm test
+      working-directory: ./backend  # Đảm bảo thư mục chính xác
 
-      - name: Build frontend
-        run: npm run build
-        working-directory: ./frontend/spidey-app  # Thay đổi thư mục nếu cần
+    - name: Build backend
+      run: npm run build  # Nếu bạn có lệnh build
+      working-directory: ./backend
 
-      - name: Deploy
-        run: echo "Deploy your application here"
+    - name: Install frontend dependencies
+      run: npm install
+      working-directory: ./frontend/spidey-app  # Đảm bảo thư mục chính xác
+
+    - name: Run frontend tests
+      run: npm test
+      working-directory: ./frontend/spidey-app  # Đảm bảo thư mục chính xác
+
+    - name: Build frontend
+      run: npm run build
+      working-directory: ./frontend/spidey-app  # Đảm bảo thư mục chính xác

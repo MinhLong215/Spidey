@@ -36,7 +36,7 @@ jobs:
 
     - name: Deploy frontend to Render
       run: |
-        curl -X POST https://api.render.com/deploy/spidey-frontend \
+        curl -X POST https://api.render.com/deploy/srv-cs1q37m8ii6s73d5k1ig?key=Ynplvcezn6Q \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
           -d '{}'

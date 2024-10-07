@@ -44,12 +44,12 @@ jobs:
     - name: Start backend server
       run: |
         echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
-        npm run start &  # Giả sử bạn đã tạo script start trong package.json
+        npm run start &  # Khởi động backend
         sleep 10
       working-directory: ./backend
 
     - name: Start frontend server
       run: |
-        npm run start &  # Giả sử bạn đã tạo script start trong package.json
+        npm run serve &  # Khởi động serve sau khi đã build frontend
         sleep 10
       working-directory: ./frontend/spidey-app

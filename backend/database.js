@@ -1,20 +1,22 @@
 const mongoose = require("mongoose");
 
 class Database {
-
-    constructor(){
+    constructor() {
         this.connect();
     }
 
-
-    connect(){
-        mongoose.connect("mongodb+srv://admin:Admin%40123@spideycluster.apcgsh8.mongodb.net/SpideyDB?retryWrites=true&w=majority&appName=SpideyCluster")
+    connect() {
+        const dbURI = process.env.MONGODB_URI; // Lấy giá trị từ biến môi trường
+        mongoose.connect(dbURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
         .then(() => {
             console.log("database connection successful");
         })
         .catch((err) => {
             console.log("database connection error " + err);
-        })
+        });
     }
 }
 

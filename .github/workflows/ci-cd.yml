@@ -3,14 +3,13 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Chạy khi có push lên nhánh main
+      - main
   pull_request:
     branches:
-      - main  # Chạy cho pull request vào nhánh main
+      - main
 
 jobs:
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,20 +19,25 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20'  # Sử dụng phiên bản Node.js mà bạn đang sử dụng
+        node-version: '20'
 
     - name: Install backend dependencies
       run: npm install
-      working-directory: ./backend  # Đảm bảo thư mục chính xác
-
-    - name: Start backend server
-      run: npm start
-      working-directory: ./backend  # Chạy ứng dụng backend
+      working-directory: ./backend
 
     - name: Install frontend dependencies
       run: npm install
-      working-directory: ./frontend/spidey-app  # Đảm bảo thư mục chính xác
+      working-directory: ./frontend/spidey-app
 
-    - name: Build frontend
-      run: npm run build
-      working-directory: ./frontend/spidey-app  # Đảm bảo thư mục chính xác
+    - name: Start backend server
+      run: |
+        echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+        npm run start &  # Giả sử bạn đã tạo script start trong package.json
+        sleep 10
+      working-directory: ./backend
+
+    - name: Start frontend server
+      run: |
+        npm run start &  # Giả sử bạn đã tạo script start trong package.json
+        sleep 10
+      working-directory: ./frontend/spidey-app

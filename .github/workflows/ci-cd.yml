@@ -26,9 +26,9 @@ jobs:
       run: npm install
       working-directory: ./backend  # Đảm bảo thư mục chính xác
 
-    - name: Build backend
-      run: npm run build  # Nếu bạn có lệnh build cho backend
-      working-directory: ./backend
+    - name: Start backend server
+      run: npm start
+      working-directory: ./backend  # Chạy ứng dụng backend
 
     - name: Install frontend dependencies
       run: npm install

@@ -20,7 +20,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20'  # Chỉnh sửa nếu bạn cần phiên bản Node.js khác
+        node-version: '20'  # Sử dụng phiên bản Node.js mà bạn đang sử dụng
 
     - name: Install backend dependencies
       run: npm install
@@ -31,7 +31,7 @@ jobs:
       working-directory: ./backend  # Đảm bảo thư mục chính xác
 
     - name: Build backend
-      run: npm run build  # Nếu bạn có lệnh build
+      run: npm run build  # Nếu bạn có lệnh build cho backend
       working-directory: ./backend
 
     - name: Install frontend dependencies

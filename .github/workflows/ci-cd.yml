@@ -29,15 +29,20 @@ jobs:
       run: npm install
       working-directory: ./frontend/spidey-app
 
+    - name: Build frontend
+      run: npm run build
+      working-directory: ./frontend/spidey-app
+
+    - name: Deploy frontend to Render
+      run: |
+        curl -X POST https://api.render.com/deploy/spidey-frontend \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{}'
+
     - name: Start backend server
       run: |
         echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
         npm run start &  # Giả sử bạn đã tạo script start trong package.json
         sleep 10
       working-directory: ./backend
-
-    - name: Start frontend server
-      run: |
-        npm run start &  # Giả sử bạn đã tạo script start trong package.json
-        sleep 10
-      working-directory: ./frontend/spidey-app

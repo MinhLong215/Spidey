@@ -31,9 +31,11 @@ build_frontend:
 deploy_backend:
   stage: deploy
   script:
-    - docker run -d -p 3003:3003 $BACKEND_IMAGE:latest
+    - docker run -d -p 3003:3003 --name backend $BACKEND_IMAGE:latest
+    - echo "Backend deployed at http://localhost:3003"
 
 deploy_frontend:
   stage: deploy
   script:
-    - docker run -d -p 3000:3000 $FRONTEND_IMAGE:latest
+    - docker run -d -p 3000:3000 --name frontend $FRONTEND_IMAGE:latest
+    - echo "Frontend deployed at http://localhost:3000"

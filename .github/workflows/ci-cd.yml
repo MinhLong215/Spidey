@@ -29,10 +29,6 @@ jobs:
       run: npm install
       working-directory: ./frontend/spidey-app
 
-    - name: Clear npm cache
-      run: npm cache clean --force
-      working-directory: ./frontend/spidey-app
-
     - name: Build frontend
       run: |
         CI=false npm run build  # Bỏ qua lỗi ESLint trong môi trường CI
@@ -40,7 +36,7 @@ jobs:
 
     - name: Deploy frontend to Render
       run: |
-        curl -X POST https://api.render.com/deploy/srv-cs1q37m8ii6s73d5k1ig?key=Ynplvcezn6Q \
+        curl -X POST https://api.render.com/deploy/srv-cs1q37m8ii6s73d5k1ig?key=${{ secrets.RENDER_API_KEY }} \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
           -d '{}'
@@ -48,12 +44,12 @@ jobs:
     - name: Start backend server
       run: |
         echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
-        npm run start &  # Khởi động backend
+        npm run start &  # Giả sử bạn đã tạo script start trong package.json
         sleep 10
       working-directory: ./backend
 
     - name: Start frontend server
       run: |
-        npm run serve &  # Khởi động serve sau khi đã build frontend
+        npm run start &  # Giả sử bạn đã tạo script start trong package.json
         sleep 10
       working-directory: ./frontend/spidey-app

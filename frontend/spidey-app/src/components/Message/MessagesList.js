@@ -17,7 +17,7 @@ const MessagesList = () => {
             try {
                 // Giả sử bạn có chatId cụ thể để lấy tin nhắn
                 const chatId = '66f38a05c8ecae07b6e632d8'; // thay thế bằng chatId thực tế
-                const response = await axios.get(`http://localhost:3003/api/messages/${chatId}`);
+                const response = await axios.get(`https://spidey-1xra.onrender.com/api/messages/${chatId}`);
                 setMessages(response.data);
                 setError(null);
             } catch (err) {

@@ -15,7 +15,7 @@ const Message = () => {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const response = await axios.get(`http://localhost:3003/api/messages/${chatId}`);
+                const response = await axios.get(`https://spidey-1xra.onrender.com/api/messages/${chatId}`);
                 setMessages(response.data);
             } catch (error) {
                 console.error("Error fetching messages", error);
@@ -33,7 +33,7 @@ const Message = () => {
         if (!content.trim()) return; // Kiểm tra nội dung tin nhắn
 
         try {
-            const response = await axios.post('http://localhost:3003/api/messages', {
+            const response = await axios.post('https://spidey-1xra.onrender.com/api/messages', {
                 content,
                 chatId,
             });

@@ -20,7 +20,7 @@ const Register = () => {
             return;
         }
         try {
-            const response = await axios.post('http://localhost:3003/api/users/register', {
+            const response = await axios.post('https://spidey-1xra.onrender.com/api/users/register', {
                 firstName,
                 lastName,
                 username,

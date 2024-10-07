@@ -16,7 +16,7 @@ const ProfilePage = () => {
         // Gọi API để lấy thông tin user
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3003/api/users/${username}`);
+                const response = await axios.get(`https://spidey-1xra.onrender.com/api/users/${username}`);
                 setUser(response.data);
             } catch (error) {
                 console.error('Error fetching user data', error);
@@ -32,7 +32,7 @@ const ProfilePage = () => {
     // Xử lý theo dõi và bỏ theo dõi
     const handleFollowToggle = async () => {
         try {
-            const response = await axios.put(`http://localhost:3003/api/users/${username}/follow`);
+            const response = await axios.put(`https://spidey-1xra.onrender.com/api/users/${username}/follow`);
             setUser(prevUser => ({
                 ...prevUser,
                 isFollowing: !prevUser.isFollowing // Đảo ngược trạng thái theo dõi

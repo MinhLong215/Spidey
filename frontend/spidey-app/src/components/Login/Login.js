@@ -12,7 +12,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3003/api/users/login', {
+            const response = await axios.post('https://spidey-1xra.onrender.com/api/users/login', {
                 username,
                 password,
             });

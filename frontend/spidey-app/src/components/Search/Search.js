@@ -15,7 +15,7 @@ const Search = () => {
     const handleSearch = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(`http://localhost:3003/api/users/search?query=${query}`);
+            const response = await axios.get(`https://spidey-1xra.onrender.com/api/users/search?query=${query}`);
             setResults(response.data);
             setError(null);
         } catch (error) {

@@ -16,7 +16,7 @@ const Home = () => {
         // Fetch posts from backend
         const fetchPosts = async () => {
             try {
-                const response = await axios.get('http://localhost:3003/api/posts');
+                const response = await axios.get('https://spidey-1xra.onrender.com/api/posts');
                 setPosts(response.data);
             } catch (error) {
                 setError('Error fetching posts');
@@ -34,7 +34,7 @@ const Home = () => {
 
     const handleLike = async (postId) => {
         try {
-            const response = await axios.put(`http://localhost:3003/api/posts/${postId}/like`);
+            const response = await axios.put(`https://spidey-1xra.onrender.com/api/posts/${postId}/like`);
             // Cập nhật lại danh sách bài viết
             setPosts(posts.map(post => post._id === postId ? response.data : post));
         } catch (error) {
@@ -44,7 +44,7 @@ const Home = () => {
 
     const handleRetweet = async (postId) => {
         try {
-            const response = await axios.post(`http://localhost:3003/api/posts/${postId}/retweet`);
+            const response = await axios.post(`https://spidey-1xra.onrender.com/api/posts/${postId}/retweet`);
             // Thêm bài viết retweet vào danh sách
             setPosts([response.data, ...posts]);
         } catch (error) {
@@ -54,7 +54,7 @@ const Home = () => {
 
     const handleDelete = async (postId) => {
         try {
-            await axios.delete(`http://localhost:3003/api/posts/${postId}`);
+            await axios.delete(`https://spidey-1xra.onrender.com/api/posts/${postId}`);
             // Loại bỏ bài viết đã xóa khỏi danh sách
             setPosts(posts.filter(post => post._id !== postId));
         } catch (error) {
@@ -64,7 +64,7 @@ const Home = () => {
 
     const handlePin = async (postId) => {
         try {
-            const response = await axios.put(`http://localhost:3003/api/posts/${postId}/pin`);
+            const response = await axios.put(`https://spidey-1xra.onrender.com/api/posts/${postId}/pin`);
             // Cập nhật lại danh sách bài viết
             setPosts(posts.map(post => post._id === postId ? response.data : post));
         } catch (error) {
@@ -100,7 +100,7 @@ const Home = () => {
         if (!newPostContent.trim()) return; // Không gửi bài viết rỗng
 
         try {
-            const response = await axios.post('http://localhost:3003/api/posts', {
+            const response = await axios.post('https://spidey-1xra.onrender.com/api/posts', {
                 content: newPostContent,
                 images: [] // Thêm hình ảnh nếu cần
             });

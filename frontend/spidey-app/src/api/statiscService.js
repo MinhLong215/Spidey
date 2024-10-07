@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3003/api';
+const API_URL = 'https://spidey-1xra.onrender.com/api';
 
 // Hàm lấy thống kê người dùng theo ngày
 export const getUserStats = async (startDate, endDate) => {

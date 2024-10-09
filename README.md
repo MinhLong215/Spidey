@@ -1,4 +1,4 @@
-# Spidey Social Media 
+# Spidey Social Media
 
 Authorization and Authentication: Implemented using session-based authentication to securely manage user sessions.
 
@@ -15,6 +15,7 @@ Image Upload: Integrated Cropper.js library to allow users to easily upload and 
 Real-Time Chat: Leveraged Socket.IO to enable real-time, bidirectional communication for both individual and group chats.
 
 Registration and Login: Users can easily create new accounts or log in to the system to start using the platform.
+
 ![Register](https://github.com/user-attachments/assets/d3cc42cb-af33-4890-981c-6f24d2a0de39)
 ![Login](https://github.com/user-attachments/assets/d1b1dd1e-6f54-444f-ab5d-eff5bb20c5d2)
 
@@ -23,17 +24,21 @@ Post Creation: Users can share their thoughts, emotions, or information through 
 Like and Retweet: Users can express their appreciation by liking posts or resharing content they enjoy through the "Retweet" feature.
 
 Comments: Enables users to discuss and interact with posts directly through the commenting system.
+
 ![Page](https://github.com/user-attachments/assets/ad328317-eaa2-4437-83c7-7e35985cf0fa)
 
 User Profile: Each user has a personal profile page where they can manage their information, profile picture, and published posts.
 
 Pin Post: Users can pin important posts at the top of their profile for easy access.
+
 ![profilePage](https://github.com/user-attachments/assets/234fa9d6-38af-4f2f-8aac-cf7266614e0f)
 
 Following and Followers Page: Users can view and manage the people they follow and those who follow them, providing a clear view of their social connections on the platform.
+
 ![followersPage](https://github.com/user-attachments/assets/9814a49c-0a4f-4c23-a54a-660eda4d19c9)
 
 Image Upload: Supports users in uploading and sharing images directly in their posts.
+
 ![Uploadprofilepic](https://github.com/user-attachments/assets/dcaf17af-3c7e-48dd-9688-f14c3633bdbd)
 ![UploadcoverPhoto](https://github.com/user-attachments/assets/b246220e-276c-4fc2-ab7f-6c0010b4a453)
 
@@ -42,3 +47,49 @@ Private Messaging: Users can send private messages to friends and followers, mak
 Group Chat: This feature allows users to create group chats with multiple participants, perfect for group discussions or organizing events. (still in process)
 
 Messages and Notifications: Users receive real-time notifications about their activities, including likes, comments, new messages, and other events on the platform. (still in process)
+
+---
+
+## Installation Instructions
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+- **Node.js** (v14 or higher)
+- **npm** (Node Package Manager)
+- **MongoDB** (Ensure you have MongoDB running locally or using MongoDB Atlas)
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/your-repo/spidey-social-media.git
+cd spidey-social-media
+
+Step 2: Setup Backend
+Navigate to the backend folder:
+cd backend
+
+Install the required dependencies:
+npm install
+
+Create a .env file in the backend directory and add your MongoDB connection string and session secret:
+MONGO_URI=<Your MongoDB Connection String>
+SESSION_SECRET=<Your Session Secret>
+
+Start the backend server:
+npm start
+
+Step 3: Setup Frontend
+Open a new terminal window, and navigate to the frontend folder:
+cd frontend/spidey-app
+
+Install the required dependencies:
+npm install
+
+Start the frontend React application:
+npm start
+
+Step 4: Access the Application
+Open your browser and go to http://localhost:3000 to view the frontend.
+Ensure your backend is running on http://localhost:3003 or whichever port you specified in the backend setup.

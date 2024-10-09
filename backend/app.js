@@ -17,9 +17,10 @@ app.set("views", "views");
 
 // Cấu hình CORS
 const corsOptions = {
-    origin: 'http://localhost:3000', // URL của frontend
+    origin: ['http://localhost:3000', 'https://spidey-1xra.onrender.com'], // URL của frontend
     methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
+    credentials: true
 };
 app.use(cors(corsOptions));
 

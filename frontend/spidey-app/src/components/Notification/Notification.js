@@ -1,4 +1,3 @@
-// frontend/src/components/Notification/Notification.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -19,10 +18,10 @@ const Notification = () => {
 
     const fetchNotifications = async () => {
         try {
-            const response = await axios.get('/api/notifications');
+            const response = await axios.get('https://spidey-1xra.onrender.com/api/notifications');
             setNotifications(response.data);
         } catch (err) {
-            console.error(err);
+            console.error('Error fetching notifications:', err.response ? err.response.data : err.message);
             setError('Failed to fetch notifications');
         } finally {
             setLoading(false);
@@ -31,7 +30,7 @@ const Notification = () => {
 
     const markAsOpened = async (id) => {
         try {
-            await axios.put(`/api/notifications/${id}/markAsOpened`);
+            await axios.put(`https://spidey-1xra.onrender.com/api/notifications/${id}/markAsOpened`);
             setNotifications(notifications.map(notification => 
                 notification._id === id ? { ...notification, opened: true } : notification
             ));

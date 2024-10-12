@@ -96,7 +96,7 @@ Start the frontend React application:
 npm start
 ```
 
-###Step 4: Access the Application
+### Step 4: Access the Application
 ```bash
 Open your browser and go to http://localhost:3000 to view the frontend.
 Ensure your backend is running on http://localhost:3003 or whichever port you specified in the backend setup.

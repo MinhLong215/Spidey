@@ -65,8 +65,11 @@ Before you begin, ensure you have the following installed on your machine:
 ```bash
 git clone https://github.com/your-repo/spidey-social-media.git
 cd spidey-social-media
+```
 
-Step 2: Setup Backend
+### Step 2: Setup Backend
+
+```bash
 Navigate to the backend folder:
 cd backend
 
@@ -79,8 +82,10 @@ SESSION_SECRET=<Your Session Secret>
 
 Start the backend server:
 npm start
+```
+### Step 3: Setup Frontend
 
-Step 3: Setup Frontend
+```bash
 Open a new terminal window, and navigate to the frontend folder:
 cd frontend/spidey-app
 
@@ -89,7 +94,10 @@ npm install
 
 Start the frontend React application:
 npm start
+```
 
-Step 4: Access the Application
+###Step 4: Access the Application
+```bash
 Open your browser and go to http://localhost:3000 to view the frontend.
 Ensure your backend is running on http://localhost:3003 or whichever port you specified in the backend setup.
+```
